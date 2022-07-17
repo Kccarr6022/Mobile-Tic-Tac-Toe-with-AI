@@ -15,6 +15,15 @@ import android.widget.VideoView;
 
 import java.util.concurrent.TimeUnit;
 
+/*
+An implementation of Minimax AI Algorithm in Tic Tac Toe,
+using Java and Android Studio.
+This software is available under GPL license.
+Author: Kaden Carr
+Year: 2022
+License: GNU GENERAL PUBLIC LICENSE (GPL)
+ */
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 

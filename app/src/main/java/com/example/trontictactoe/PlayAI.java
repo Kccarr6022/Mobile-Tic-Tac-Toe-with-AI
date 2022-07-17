@@ -15,19 +15,29 @@ import android.widget.VideoView;
 
 import java.util.concurrent.TimeUnit;
 
+/*
+An implementation of Minimax AI Algorithm in Tic Tac Toe,
+using Java and Android Studio.
+This software is available under GPL license.
+Author: Kaden Carr
+Year: 2022
+License: GNU GENERAL PUBLIC LICENSE (GPL)
+ */
+
 public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
 
     private VideoView videoBG;
     MediaPlayer mMediaPlayer;
     int mCurrentVideoPosition;
-    int move = 0;
     int[][] board = new int[3][3]; // Tic tac toe board
     boolean edit = true;
+    static int HUMAN = -1;
+    static int HAL = 1;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // -------------------------
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -88,58 +98,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-        if (v == findViewById(R.id.reset)) {
-            reset();
-            edit = true;
-            return;
-        }
-
-        if (v == findViewById(R.id.home)) {
-            reset();
-            openHome();
-            return;
-        }
-
-        if (edit) {
-            String name = ((ImageButton) findViewById(v.getId())).getTag().toString();
-
-            int posx = name.charAt(0) - '0';
-            int posy = name.charAt(1) - '0';
-
-            System.out.print("X is " + posx + " and Y is " + posy);
-
-            TextView announcement = ((TextView) findViewById(R.id.winner));
-            //String text = "PLAYER " + (move % 2) + " WINS!";
-            announcement.setText("");
-
-            if (board[posx][posy] == 0) {
-                move++; // Increments move count
-
-
-                if (move % 2 == 1) { // x player 1
-                    board[posx][posy] = 1;
-                    ((ImageButton) v).setImageResource(R.drawable.x);
-                } else { // o player 2
-                    board[posx][posy] = 2;
-                    ((ImageButton) v).setImageResource(R.drawable.o);
-                }
-
-                if (checkWin()) {
-                    String text = "PLAYER " + (((move + 1) % 2) + 1) + " WINS!";
-                    edit = false;
-                    announcement.setText(text);
-
-
-                }
-
-            } else {  // Already selected
-                "".isEmpty(); // do nothing
-            }
-        }
-    }
+    // ------------------------------------------------------------- CREATION
 
     @Override
     protected void onPause() {
@@ -161,34 +120,125 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         mMediaPlayer = null;
     }
 
-    public boolean checkWin() {
+
+    @Override
+    public void onClick(View v) {
+        /**
+         * Take a click from a button and determines the action based on the button.
+         * @param x The view value coming from the button.
+         */
+
+        if (v == findViewById(R.id.reset)) { // reset button
+            reset();
+            edit = true;
+            return;
+        }
+
+        if (v == findViewById(R.id.home)) { // home button
+            reset();
+            openHome();
+            return;
+        }
+
+        // game button
+
+        if (edit) {
+            String name = ((ImageButton) findViewById(v.getId())).getTag().toString();
+
+            int posx = name.charAt(0) - '0';
+            int posy = name.charAt(1) - '0';
+
+            System.out.print("X is " + posx + " and Y is " + posy);
+
+            TextView announcement = ((TextView) findViewById(R.id.winner));
+            //String text = "PLAYER " + (move % 2) + " WINS!";
+            announcement.setText("");
+
+            if (board[posx][posy] == 0) {
+
+
+                // place piece from person
+                board[posx][posy] = -1;
+                ((ImageButton) v).setImageResource(R.drawable.x);
+
+                if (checkWin()) {
+                    String text = "PLAYER 1 WINS!";
+                    edit = false;
+                    announcement.setText(text);
+                    return;
+                }
+
+                // place piece from AI
+
+
+
+            } else {  // Already selected
+                "".isEmpty(); // do nothing
+            }
+
+        }
+    }
+
+    public boolean checkWin(int[][]state, int player) { // -1 = human and 1 = computer
+        /**
+         * Connects to the board and returns if the game is over.
+         * @param takes if player is human or computer and the state of the game.
+         * @return Returns a true or false if the game is over.
+         */
         for (int i = 0; i <= 2; i++) {
-            if (board[i][0] != 0 && (board[i][0] == board[i][1]) && (board[i][1] == board[i][2])) {
+            if (state[i][0] == player && (state[i][0] == state[i][1]) && (state[i][1] == state[i][2])) {
                 return true; // checks vertical wins
             }
-            if (board[0][i] != 0 && (board[0][i] == board[1][i]) && (board[1][i] == board[2][i])) {
+            if (state[0][i] == player && (state[0][i] == state[1][i]) && (state[1][i] == state[2][i])) {
                 return true; // checks horizontal wins
             }
         }
 
-        if (board[0][0] != 0 && (board[0][0] == board[1][1]) && (board[1][1] == board[2][2])) { // diagonal at 0, 0
+        if (state[0][0] == player && (state[0][0] == state[1][1]) && (state[1][1] == state[2][2])) { // diagonal at 0, 0
             return true;
         }
 
-        if (board[2][0] != 0 && (board[2][0] == board[1][1]) && (board[1][1] == board[0][2])) { // diagonal at 2, 0
+        if (state[2][0] == player && (state[2][0] == state[1][1]) && (state[1][1] == state[0][2])) { // diagonal at 2, 0
             return true;
         }
 
         return false;
     }
 
+    public boolean gameOver(int[][]state) {
+        return checkWin(state,HAL) || checkWin(state, HUMAN);
+    }
+
+    public int evaluate(int[][]state) { // For AI Algorithm
+        /**
+         * Connects to the board and does calculations for the artificial intelligence.
+         * @param take the state of the game (board)
+         * @return Returs 1 if calculated computer wins, -1 if human wins, and 0 if neither.
+         */
+        if (checkWin(state, HAL)) {
+            return 1;
+        }
+        else if (checkWin(state, HUMAN)) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+
+    }
+
+    def minimax(int[][]state, int depth, int player)
+
+
     public void reset() {
+        /**
+         * Function which resets the paremeters for the game to happen to default values.
+         */
         for (int i = 0; i <= 2; i++) { // resets board
             for (int j = 0; j <= 2; j++) {
                 board[i][j] = 0;
             }
         }
-        move = 0;
 
         ((TextView) findViewById(R.id.winner)).setText("");
         ((ImageButton) findViewById(R.id.btn00)).setImageResource(R.drawable.none); // (0, 0) 1
@@ -204,6 +254,10 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public static void wait(int ms) {
+        /**
+         * Stops the time for the time given in milliseconds in the parameter.
+         * @param x The value of seconds in mili.
+         */
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ex) {
@@ -212,10 +266,15 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void openHome() {
+        /**
+         * Function to bring the game to the HomeActivity.
+         */
         Intent home = new Intent(this, HomeActivity.class );
         home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home);
     }
+
+    minimax()
 
 
 }
