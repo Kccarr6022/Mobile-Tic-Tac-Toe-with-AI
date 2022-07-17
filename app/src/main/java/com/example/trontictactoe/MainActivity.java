@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void openHome() {
         Intent home = new Intent(this, HomeActivity.class );
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home);
     }
 

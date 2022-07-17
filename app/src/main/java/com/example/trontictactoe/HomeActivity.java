@@ -94,10 +94,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void openMainActivity() {
         Intent intent_main = new Intent(this, MainActivity.class );
+        intent_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent_main);
     }
     public void openPlayAI() {
         Intent intent_ai = new Intent(this, PlayAI.class );
+        intent_ai.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent_ai);
     }
 

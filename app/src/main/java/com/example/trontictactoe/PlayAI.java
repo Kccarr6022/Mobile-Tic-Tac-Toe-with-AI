@@ -213,6 +213,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     public void openHome() {
         Intent home = new Intent(this, HomeActivity.class );
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home);
     }
 
