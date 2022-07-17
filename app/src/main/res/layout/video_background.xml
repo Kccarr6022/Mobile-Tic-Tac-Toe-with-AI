@@ -188,13 +188,14 @@
         android:onClick="reset"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="@+id/home"
+        app:layout_constraintEnd_toStartOf="@+id/home"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/reset" />
 
     <ImageButton
         android:id="@+id/home"
-        android:layout_width="250dp"
+        android:layout_width="140dp"
         android:layout_height="100dp"
         android:layout_marginBottom="30dp"
         android:background="@null"
@@ -202,6 +203,8 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.81"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/home" />
 
 
