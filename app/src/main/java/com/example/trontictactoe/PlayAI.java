@@ -70,6 +70,8 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         ImageButton btn12 = findViewById(R.id.btn12); // (1, 2) 8
         ImageButton btn22 = findViewById(R.id.btn22); // (2, 2) 9
         ImageButton reset = findViewById(R.id.reset); // reset button
+        ImageButton home = findViewById(R.id.home); // home button
+
 
         // Sets on click listeners
         btn00.setOnClickListener(this);
@@ -82,6 +84,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         btn12.setOnClickListener(this);
         btn22.setOnClickListener(this);
         reset.setOnClickListener(this);
+        home.setOnClickListener(this);
 
     }
 
@@ -91,6 +94,12 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         if (v == findViewById(R.id.reset)) {
             reset();
             edit = true;
+            return;
+        }
+
+        if (v == findViewById(R.id.home)) {
+            reset();
+            openHome();
             return;
         }
 

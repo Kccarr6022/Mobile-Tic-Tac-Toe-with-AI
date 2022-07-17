@@ -188,17 +188,17 @@
         android:onClick="reset"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="@+id/reset2"
+        app:layout_constraintEnd_toEndOf="@+id/home"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/reset" />
 
     <ImageButton
-        android:id="@+id/reset2"
+        android:id="@+id/home"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginBottom="30dp"
         android:background="@null"
-        android:onClick="openHome"
+        android:onClick="onClick"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
         app:layout_constraintEnd_toEndOf="parent"
