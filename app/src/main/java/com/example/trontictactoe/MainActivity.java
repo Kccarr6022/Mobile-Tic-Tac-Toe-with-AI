@@ -2,6 +2,7 @@ package com.example.trontictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -203,6 +204,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public void openHome() {
+        Intent home = new Intent(this, HomeActivity.class );
+        startActivity(home);
     }
 
 }

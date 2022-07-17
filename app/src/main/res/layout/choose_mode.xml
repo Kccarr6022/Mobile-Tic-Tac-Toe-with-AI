@@ -4,49 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.trontictactoe.MainActivity">
+    tools:context=".HomeActivity">
 
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-    <ImageView
-        android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/backgroundoverlayblue"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="304dp"
-        android:layout_height="134dp"
-        android:text="Local 2-Player"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/videoView"
-        app:layout_constraintVertical_bias="0.749" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="304dp"
-        android:layout_height="134dp"
-        android:text="Play HAL"
-        app:layout_constraintBottom_toBottomOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/videoView"
-        app:layout_constraintTop_toTopOf="@+id/videoView" />
+    <include layout="@layout/choose_mode_layout"></include>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
