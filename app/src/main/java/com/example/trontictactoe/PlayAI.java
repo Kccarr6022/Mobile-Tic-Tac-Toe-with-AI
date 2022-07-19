@@ -1,7 +1,6 @@
 package com.example.trontictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -10,10 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
-
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 /*
 An implementation of Minimax AI Algorithm in Tic Tac Toe,
@@ -161,7 +160,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 board[posx][posy] = -1;
                 ((ImageButton) v).setImageResource(R.drawable.x);
 
-                if (checkWin()) {
+                if (checkWin(board, HUMAN)) {
                     String text = "PLAYER 1 WINS!";
                     edit = false;
                     announcement.setText(text);
@@ -169,7 +168,14 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 }
 
                 // place piece from AI
+                halTurn();
 
+                if (checkWin(board, HAL)) {
+                    String text = "HAL9000 WINS!";
+                    edit = false;
+                    announcement.setText(text);
+                    return;
+                }
 
 
             } else {  // Already selected
@@ -227,7 +233,120 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    def minimax(int[][]state, int depth, int player)
+    public int[] minimax(int[][]state, int depth, int player) {
+
+        int[] best = new int[3];
+
+        if (player == HAL) {
+            best[0] = -1; // best row
+            best[1] = -1; // best col
+            best[2] = -9999; // best score
+        }
+        else {
+            best[0] = 1; // best row
+            best[1] = 1; // best col
+            best[2] = 9999; // best score
+        }
+
+        if (depth == 0 || gameOver(state)) {
+            int score = evaluate(state);
+            int[] returned =  {-1, -1, score};
+            return returned;
+        }
+
+
+        for ( int i = 0; i <= empty_cells(state).size(); i++) {
+            int x = empty_cells(state).get(i)[0];
+            int y = empty_cells(state).get(i)[1];
+            state[x][y] = player;
+            int[] score = minimax(state, depth - 1, -player);
+            state[x][y] = 0;
+            score[0] = x;
+            score[1] = y;
+
+            if (player == HAL) {
+                if (score[2] > best[2]) {
+                    best = score; // max
+                }
+            }
+            else {
+                if (score[2] < best[2]) {
+                    best = score; // min
+                }
+            }
+
+        }
+
+
+        return best;
+    }
+
+    public Vector<Integer[]> empty_cells(int[][] state) {
+        /**
+         * Connects to the board to return the locations of all the empty spaces.
+         * @param take the state of the game (board)
+         * @return Returns a double array of x and y coordinates for empty spots.
+         */
+
+        Vector<Integer[]> empty_cells = new Vector<Integer[]>();
+        for (int x = 0; x <= 2; x++) {
+            for (int y = 0; y <= 2; y++) {
+                if (state[x][y] == 0) {
+                    Integer []pos = {x, y};
+                    empty_cells.add(pos);
+                }
+            }
+        }
+
+
+
+        return empty_cells;
+
+    }
+
+    public void halTurn() { // Will go after human
+
+        int depth = empty_cells(board).size();
+        if (depth == 0 || gameOver(board)) {
+            return;
+        }
+
+        int[] move = minimax(board, depth, HAL);
+        int x = move[0];
+        int y = move[1];
+        board[x][y] = HAL;
+        String tag = Integer.toString(x) + Integer.toString(y);
+
+        if (tag == "00") {
+            ((ImageButton) findViewById(R.id.btn00)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "01") {
+            ((ImageButton) findViewById(R.id.btn01)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "02") {
+            ((ImageButton) findViewById(R.id.btn02)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "10") {
+            ((ImageButton) findViewById(R.id.btn10)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "11") {
+            ((ImageButton) findViewById(R.id.btn11)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "12") {
+            ((ImageButton) findViewById(R.id.btn12)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "20") {
+            ((ImageButton) findViewById(R.id.btn20)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "21") {
+            ((ImageButton) findViewById(R.id.btn21)).setImageResource(R.drawable.o);
+        }
+        else if (tag == "22") {
+            ((ImageButton) findViewById(R.id.btn22)).setImageResource(R.drawable.o);
+        }
+
+
+    }
 
 
     public void reset() {
@@ -273,8 +392,6 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home);
     }
-
-    minimax()
 
 
 }
