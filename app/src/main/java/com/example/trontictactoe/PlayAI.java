@@ -147,16 +147,10 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
             int posx = name.charAt(0) - '0';
             int posy = name.charAt(1) - '0';
-
-            System.out.print("X is " + posx + " and Y is " + posy);
-
             TextView announcement = ((TextView) findViewById(R.id.winner));
-            //String text = "PLAYER " + (move % 2) + " WINS!";
             announcement.setText("");
 
             if (board[posx][posy] == 0) {
-
-
                 // place piece from person
                 board[posx][posy] = HUMAN;
                 ((ImageButton) v).setImageResource(R.drawable.x);
@@ -340,31 +334,31 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         Log.d("myTag", tag);
 
         // Sets button to 0 based on the coordinates.
-        if (tag == "00") {
+        if (x == 0 && y == 0) {
             ((ImageButton) findViewById(R.id.btn00)).setImageResource(R.drawable.o);
         }
-        else if (tag == "01") {
+        else if (x == 0 && y == 1) {
             ((ImageButton) findViewById(R.id.btn01)).setImageResource(R.drawable.o);
         }
-        else if (tag == "02") {
+        else if (x == 0 && y == 2) {
             ((ImageButton) findViewById(R.id.btn02)).setImageResource(R.drawable.o);
         }
-        else if (tag == "10") {
+        else if (x == 1 && y == 0) {
             ((ImageButton) findViewById(R.id.btn10)).setImageResource(R.drawable.o);
         }
-        else if (tag == "11") {
+        else if (x == 1 && y == 1) {
             ((ImageButton) findViewById(R.id.btn11)).setImageResource(R.drawable.o);
         }
-        else if (tag == "12") {
+        else if (x == 1 && y == 2) {
             ((ImageButton) findViewById(R.id.btn12)).setImageResource(R.drawable.o);
         }
-        else if (tag == "20") {
+        else if (x == 2 && y == 0) {
             ((ImageButton) findViewById(R.id.btn20)).setImageResource(R.drawable.o);
         }
-        else if (tag == "21") {
+        else if (x == 2 && y == 1) {
             ((ImageButton) findViewById(R.id.btn21)).setImageResource(R.drawable.o);
         }
-        else if (tag == "22") {
+        else if (x == 2 && y == 2) {
             ((ImageButton) findViewById(R.id.btn22)).setImageResource(R.drawable.o);
         }
 
