@@ -128,6 +128,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
          * @param x The view value coming from the button.
          */
 
+
         if (v == findViewById(R.id.reset)) { // reset button
             reset();
             edit = true;
@@ -143,42 +144,40 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         // game button
 
         if (edit) {
-            String name = ((ImageButton) findViewById(v.getId())).getTag().toString();
+            String name = ((ImageButton) v).getTag().toString();
 
             int posx = name.charAt(0) - '0';
             int posy = name.charAt(1) - '0';
-            TextView announcement = ((TextView) findViewById(R.id.winner));
-            announcement.setText("");
 
             if (board[posx][posy] == 0) {
                 // place piece from person
                 board[posx][posy] = HUMAN;
                 ((ImageButton) v).setImageResource(R.drawable.x);
 
-                if (checkWin(board, HUMAN)) {
-                    String text = "PLAYER 1 WINS!";
-                    edit = false;
-                    announcement.setText(text);
-                    return;
                 }
-
-                // place piece from AI
-                halTurn();
-
-                if (checkWin(board, HAL)) {
-                    String text = "HAL9000 WINS!";
-                    edit = false;
-                    announcement.setText(text);
-                    return;
-                }
-
-
             } else {  // Already selected
                 "".isEmpty(); // do nothing
             }
 
+            if (checkWin(board, HUMAN)) {
+                String text = "PLAYER 1 WINS!";
+                edit = false;
+                ((TextView) findViewById(R.id.winner)).setText(text);
+                return;
+            }
+
+            // place piece from AI
+            halTurn();
+            if (checkWin(board, HAL)) {
+                String text = "HAL9000 WINS!";
+                edit = false;
+                ((TextView) findViewById(R.id.winner)).setText(text);
+                return;
+            }
+
+
+
         }
-    }
 
     public boolean checkWin(int[][]state, int player) { // -1 = human and 1 = computer
         /**
@@ -389,17 +388,6 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public static void wait(int ms) {
-        /**
-         * Stops the time for the time given in milliseconds in the parameter.
-         * @param x The value of seconds in mili.
-         */
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public void openHome() {
         /**
