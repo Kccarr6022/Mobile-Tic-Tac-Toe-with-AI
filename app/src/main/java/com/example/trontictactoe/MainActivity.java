@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        /**
+         * Take a click from a button and determines the action based on the button.
+         * @param x The view value coming from the button.
+         */
 
         if (v == findViewById(R.id.reset)) {
             reset();
@@ -117,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 int posx = name.charAt(0) - '0';
                 int posy = name.charAt(1) - '0';
-
-                System.out.print("X is " + posx + " and Y is " + posy);
 
                 TextView announcement = ((TextView) findViewById(R.id.winner));
                 //String text = "PLAYER " + (move % 2) + " WINS!";
@@ -171,6 +173,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public boolean checkWin() {
+        /**
+         * Connects to the board and returns if the game is over.
+         * @param takes if player is human or computer and the state of the game.
+         * @return Returns a true or false if the game is over.
+         */
         for (int i = 0; i <= 2; i++) {
             if (board[i][0] != 0 && (board[i][0] == board[i][1]) && (board[i][1] == board[i][2])) {
                 return true; // checks vertical wins
@@ -192,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void reset() {
+        /**
+         * Function which resets the paremeters for the game to happen to default values.
+         */
         for (int i = 0; i <= 2; i++) { // resets board
             for (int j = 0; j <= 2; j++) {
                 board[i][j] = 0;
@@ -224,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void openHome() {
+        /**
+         * Function to bring the game to the HomeActivity.
+         */
         Intent home = new Intent(this, HomeActivity.class );
         home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home);

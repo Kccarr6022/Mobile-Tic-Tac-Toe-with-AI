@@ -153,8 +153,6 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 // place piece from person
                 board[posx][posy] = HUMAN;
                 ((ImageButton) v).setImageResource(R.drawable.x);
-
-                }
             } else {  // Already selected
                 "".isEmpty(); // do nothing
             }
@@ -174,8 +172,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 ((TextView) findViewById(R.id.winner)).setText(text);
                 return;
             }
-
-
+        }
 
         }
 
