@@ -158,7 +158,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
 
                 // place piece from person
-                board[posx][posy] = -1;
+                board[posx][posy] = HUMAN;
                 ((ImageButton) v).setImageResource(R.drawable.x);
 
                 if (checkWin(board, HUMAN)) {
@@ -235,6 +235,11 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public int[] minimax(int[][]state, int depth, int player) {
+        /**
+         * Connects to the board and does calculations for the artificial intelligence.
+         * @param take the state of the game (board)
+         * @return Returs 1 if calculated computer wins, -1 if human wins, and 0 if neither.
+         */
 
         int[] best = new int[3];
 
@@ -242,6 +247,10 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
             best[0] = -1; // best row
             best[1] = -1; // best col
             best[2] = -(int)Double.POSITIVE_INFINITY; // best score
+            for (int x = 0; x < best.length; x++ ) {
+                String beststr = Integer.toString(x) + " is " + Integer.toString(best[x]);
+                Log.d("myTag", beststr);
+            }
         }
         else {
             best[0] = 1; // best row
@@ -256,7 +265,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         }
 
 
-        for ( int i = 0; i <= empty_cells(state).size(); i++) {
+        for ( int i = 0; i < depth; i++) {
             int x = empty_cells(state).get(i)[0];
             int y = empty_cells(state).get(i)[1];
             state[x][y] = player;
@@ -306,14 +315,17 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void halTurn() { // Will go after human
+        /**
+         * Will respond to the board to place the best possible move from HAL.
+         */
 
         Log.d("myTag", " Hals turn");
 
+        // calculates the number of empty cells.
         int depth = empty_cells(board).size();
         if (depth == 0 || gameOver(board)) {
             return;
         }
-        wait(5000);
 
         Log.d("myTag", " Pass depth defined");
 
@@ -325,7 +337,9 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
         board[x][y] = HAL;
         String tag = Integer.toString(x) + Integer.toString(y);
+        Log.d("myTag", tag);
 
+        // Sets button to 0 based on the coordinates.
         if (tag == "00") {
             ((ImageButton) findViewById(R.id.btn00)).setImageResource(R.drawable.o);
         }

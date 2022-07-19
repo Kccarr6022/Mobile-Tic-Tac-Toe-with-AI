@@ -23,7 +23,7 @@ License: GNU GENERAL PUBLIC LICENSE (GPL)
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    //Media Variables
     private VideoView videoBG;
     MediaPlayer mMediaPlayer;
     int mCurrentVideoPosition;
@@ -31,12 +31,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /**
+         * Creates the saved instance state. The constructor for our page.
+         * @param Takes the state to construct our android page.
+         */
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_mode);
 
         // Videoview to UI
         videoBG = (VideoView) findViewById(R.id.videoView);
 
+        // Creates view
         Uri uri = Uri.parse("android.resource://" // First start with this,
                 + getPackageName() // then retrieve your package name,
                 + "/" // add a slash,
@@ -76,6 +82,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onClick(View v) {
+        /**
+         * Takes the click and directs the button to change the page.
+         * @param take the view of the button that clicks associated with the listener.
+         */
         if (v == findViewById(R.id.exit)) { exit(); }
         else if (v == findViewById(R.id.play)) { openMainActivity(); }
         else if (v == findViewById(R.id.playai)) { openPlayAI(); }
@@ -102,17 +112,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void openMainActivity() {
+        /**
+         * Opens 2 player mode!
+         */
         Intent intent_main = new Intent(this, MainActivity.class );
         intent_main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent_main);
     }
     public void openPlayAI() {
+        /**
+         * Connects the play HAL to open the AI play mode.
+         */
         Intent intent_ai = new Intent(this, PlayAI.class );
         intent_ai.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent_ai);
     }
 
     public void exit() {
+        /**
+         * Exits the software
+         */
         finish();
         System.exit(0);
     }
