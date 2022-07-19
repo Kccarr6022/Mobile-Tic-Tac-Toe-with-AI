@@ -162,7 +162,8 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 return;
             }
 
-            // place piece from AI
+            // place piece from AIi
+
             halTurn();
             if (checkWin(board, HAL)) {
                 String text = "HAL9000 WINS!";
@@ -311,24 +312,33 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
          */
 
         Log.d("myTag", " Hals turn");
-
         // calculates the number of empty cells.
         int depth = empty_cells(board).size();
+        int x, y;
         if (depth == 0 || gameOver(board)) {
             return;
+        } else if (empty_cells(board).size() == 8 && board[1][1] == 0) {
+            x = 1;
+            y = 1;
+        } else if (empty_cells(board).size() == 8 && board[1][1] != 0) {
+            x = 0;
+            y = 2;
+        }
+        else {
+
+            Log.d("myTag", " Pass depth defined");
+
+            int[] move = minimax(board, depth, HAL);
+            x = move[0];
+            y = move[1];
+
+            Log.d("myTag", " Position " + String.valueOf(x) + String.valueOf(y));
+
+            String tag = Integer.toString(x) + Integer.toString(y);
+            Log.d("myTag", tag);
         }
 
-        Log.d("myTag", " Pass depth defined");
-
-        int[] move = minimax(board, depth, HAL);
-        int x = move[0];
-        int y = move[1];
-
-        Log.d("myTag", " Position " + String.valueOf(x) + String.valueOf(y));
-
         board[x][y] = HAL;
-        String tag = Integer.toString(x) + Integer.toString(y);
-        Log.d("myTag", tag);
 
         // Sets button to 0 based on the coordinates.
         if (x == 0 && y == 0) {
