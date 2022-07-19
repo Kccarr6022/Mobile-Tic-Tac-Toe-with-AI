@@ -6,6 +6,7 @@ import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -240,12 +241,12 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         if (player == HAL) {
             best[0] = -1; // best row
             best[1] = -1; // best col
-            best[2] = -9999; // best score
+            best[2] = -(int)Double.POSITIVE_INFINITY; // best score
         }
         else {
             best[0] = 1; // best row
             best[1] = 1; // best col
-            best[2] = 9999; // best score
+            best[2] = (int)Double.POSITIVE_INFINITY; // best score
         }
 
         if (depth == 0 || gameOver(state)) {
@@ -306,14 +307,22 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     public void halTurn() { // Will go after human
 
+        Log.d("myTag", " Hals turn");
+
         int depth = empty_cells(board).size();
         if (depth == 0 || gameOver(board)) {
             return;
         }
+        wait(5000);
+
+        Log.d("myTag", " Pass depth defined");
 
         int[] move = minimax(board, depth, HAL);
         int x = move[0];
         int y = move[1];
+
+        Log.d("myTag", " Position " + String.valueOf(x) + String.valueOf(y));
+
         board[x][y] = HAL;
         String tag = Integer.toString(x) + Integer.toString(y);
 
