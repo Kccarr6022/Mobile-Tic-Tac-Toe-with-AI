@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tron Tic Tac Toe</string>
+    <string name="app_name">Hal\'s Tic-tac-toe</string>
     <string name="title_activity_add_players">AddPlayers</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

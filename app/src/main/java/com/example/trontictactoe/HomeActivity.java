@@ -29,6 +29,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     int mCurrentVideoPosition;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**
@@ -38,6 +40,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_mode);
+        MediaPlayer music = MediaPlayer.create(HomeActivity.this, R.raw.music);
+        music.start();
+
+        // Starts theme music
 
         // Videoview to UI
         videoBG = (VideoView) findViewById(R.id.videoView);

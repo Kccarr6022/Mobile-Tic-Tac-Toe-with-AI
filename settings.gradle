@@ -1,2 +1,2 @@
-rootProject.name = "Tron Tic Tac Toe"
+rootProject.name = "Hal's Tic-tac-toe"
 include ':app'

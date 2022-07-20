@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/videoView"
-        app:srcCompat="@mipmap/app_icon" />
+        app:srcCompat="@drawable/hal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
