@@ -6,11 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Arrays;
 
 /*
 An implementation of Minimax AI Algorithm in Tic Tac Toe,
@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     //Media Variables
     private VideoView videoBG;
+    public MediaPlayer music;
     MediaPlayer mMediaPlayer;
     int mCurrentVideoPosition;
 
@@ -33,20 +34,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /**
+        /*
          * Creates the saved instance state. The constructor for our page.
          * @param Takes the state to construct our android page.
          */
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_mode);
-        MediaPlayer music = MediaPlayer.create(HomeActivity.this, R.raw.music);
-        music.start();
 
         // Starts theme music
+        music = MediaPlayer.create(HomeActivity.this, R.raw.music);
+        music.start();
 
         // Videoview to UI
-        videoBG = (VideoView) findViewById(R.id.videoView);
+        videoBG = findViewById(R.id.videoView);
 
         // Creates view
         Uri uri = Uri.parse("android.resource://" // First start with this,
@@ -59,36 +60,56 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         videoBG.start();
 
         // Set an OnPreparedListener for our VideoView.
-        videoBG.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mMediaPlayer = mediaPlayer;
-                // We set looping to true to allow the video to repeat
-                mMediaPlayer.setLooping(true);
+        videoBG.setOnPreparedListener(mediaPlayer -> {
+            mMediaPlayer = mediaPlayer;
+            // We set looping to true to allow the video to repeat
+            mMediaPlayer.setLooping(true);
 
-                // we then seek to the current position if it has been set and play the video
-                if (mCurrentVideoPosition != 0) {
-                    mMediaPlayer.seekTo(mCurrentVideoPosition);
-                    mMediaPlayer.start();
-                }
+            // we then seek to the current position if it has been set and play the video
+            if (mCurrentVideoPosition != 0) {
+                mMediaPlayer.seekTo(mCurrentVideoPosition);
+                mMediaPlayer.start();
             }
         });
 
         // Instantiates image buttons for board
-        Button play = (Button) findViewById(R.id.play); // (0, 0) 1
-        Button playai = ( Button) findViewById(R.id.playai); // (1, 0) 2
-        Button exit = (Button) findViewById(R.id.exit); // (2, 0) 3
+        Button play = findViewById(R.id.play); // (0, 0) 1
+        Button playai = findViewById(R.id.playai); // (1, 0) 2
+        Button exit = findViewById(R.id.exit); // (2, 0) 3
 
 
         // Sets on click listeners
-        play.setOnClickListener((View.OnClickListener) this);
-        playai.setOnClickListener((View.OnClickListener) this);
-        exit.setOnClickListener((View.OnClickListener) this);
+        play.setOnClickListener(this);
+        for (Button button : Arrays.asList(playai, exit)) {
+            button.setOnClickListener(this);
+        }
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoBG.pause();
+        music.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoBG.start();
+        music.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        music.stop();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
+    }
+
     public void onClick(View v) {
-        /**
+        /*
          * Takes the click and directs the button to change the page.
          * @param take the view of the button that clicks associated with the listener.
          */
@@ -97,28 +118,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         else if (v == findViewById(R.id.playai)) { openPlayAI(); }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        videoBG.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        videoBG.start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        mMediaPlayer.release();
-        mMediaPlayer = null;
-    }
 
     public void openMainActivity() {
-        /**
+        /*
          * Opens 2 player mode!
          */
         Intent intent_main = new Intent(this, MainActivity.class );
@@ -126,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent_main);
     }
     public void openPlayAI() {
-        /**
+        /*
          * Connects the play HAL to open the AI play mode.
          */
         Intent intent_ai = new Intent(this, PlayAI.class );
@@ -135,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void exit() {
-        /**
+        /*
          * Exits the software
          */
         finish();

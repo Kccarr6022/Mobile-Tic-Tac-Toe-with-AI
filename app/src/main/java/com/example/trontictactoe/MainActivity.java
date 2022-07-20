@@ -1,19 +1,14 @@
 package com.example.trontictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.VideoView;
-
-import java.util.concurrent.TimeUnit;
 
 /*
 An implementation of Minimax AI Algorithm in Tic Tac Toe,
@@ -42,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // Videoview to UI
-        videoBG = (VideoView) findViewById(R.id.videoView);
+        videoBG = findViewById(R.id.videoView);
 
         Uri uri = Uri.parse("android.resource://" // First start with this,
                 + getPackageName() // then retrieve your package name,
@@ -54,18 +49,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videoBG.start();
 
         // Set an OnPreparedListener for our VideoView.
-        videoBG.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mMediaPlayer = mediaPlayer;
-                // We set looping to true to allow the video to repeat
-                mMediaPlayer.setLooping(true);
+        videoBG.setOnPreparedListener(mediaPlayer -> {
+            mMediaPlayer = mediaPlayer;
+            // We set looping to true to allow the video to repeat
+            mMediaPlayer.setLooping(true);
 
-                // we then seek to the current position if it has been set and play the video
-                if (mCurrentVideoPosition != 0) {
-                    mMediaPlayer.seekTo(mCurrentVideoPosition);
-                    mMediaPlayer.start();
-                }
+            // we then seek to the current position if it has been set and play the video
+            if (mCurrentVideoPosition != 0) {
+                mMediaPlayer.seekTo(mCurrentVideoPosition);
+                mMediaPlayer.start();
             }
         });
 
@@ -99,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        /**
+        /*
          * Take a click from a button and determines the action based on the button.
          * @param x The view value coming from the button.
          */
@@ -117,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
             if (edit) {
-                String name = ((ImageButton) findViewById(v.getId())).getTag().toString();
+                String name = (findViewById(v.getId())).getTag().toString();
 
                 int posx = name.charAt(0) - '0';
                 int posy = name.charAt(1) - '0';
 
-                TextView announcement = ((TextView) findViewById(R.id.winner));
+                TextView announcement = findViewById(R.id.winner);
                 //String text = "PLAYER " + (move % 2) + " WINS!";
                 announcement.setText("");
 
@@ -167,13 +159,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mMediaPlayer.release();
         mMediaPlayer = null;
     }
 
     public boolean checkWin() {
-        /**
+        /*
          * Connects to the board and returns if the game is over.
          * @param takes if player is human or computer and the state of the game.
          * @return Returns a true or false if the game is over.
@@ -199,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void reset() {
-        /**
+        /*
          * Function which resets the paremeters for the game to happen to default values.
          */
         for (int i = 0; i <= 2; i++) { // resets board
@@ -221,20 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public static void wait(int ms)
-    {
-        try
-        {
-            Thread.sleep(ms);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public void openHome() {
-        /**
+        /*
          * Function to bring the game to the HomeActivity.
          */
         Intent home = new Intent(this, HomeActivity.class );

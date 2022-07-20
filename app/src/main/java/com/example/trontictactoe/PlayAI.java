@@ -1,18 +1,16 @@
 package com.example.trontictactoe;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.*;
 
 /*
@@ -42,7 +40,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         // Videoview to UI
-        videoBG = (VideoView) findViewById(R.id.videoView);
+        videoBG = findViewById(R.id.videoView);
 
         Uri uri = Uri.parse("android.resource://" // First start with this,
                 + getPackageName() // then retrieve your package name,
@@ -54,18 +52,15 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         videoBG.start();
 
         // Set an OnPreparedListener for our VideoView.
-        videoBG.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mMediaPlayer = mediaPlayer;
-                // We set looping to true to allow the video to repeat
-                mMediaPlayer.setLooping(true);
+        videoBG.setOnPreparedListener(mediaPlayer -> {
+            mMediaPlayer = mediaPlayer;
+            // We set looping to true to allow the video to repeat
+            mMediaPlayer.setLooping(true);
 
-                // we then seek to the current position if it has been set and play the video
-                if (mCurrentVideoPosition != 0) {
-                    mMediaPlayer.seekTo(mCurrentVideoPosition);
-                    mMediaPlayer.start();
-                }
+            // we then seek to the current position if it has been set and play the video
+            if (mCurrentVideoPosition != 0) {
+                mMediaPlayer.seekTo(mCurrentVideoPosition);
+                mMediaPlayer.start();
             }
         });
 
@@ -123,7 +118,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        /**
+        /*
          * Take a click from a button and determines the action based on the button.
          * @param x The view value coming from the button.
          */
@@ -144,7 +139,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         // game button
 
         if (edit) {
-            String name = ((ImageButton) v).getTag().toString();
+            String name = v.getTag().toString();
 
             int posx = name.charAt(0) - '0';
             int posy = name.charAt(1) - '0';
@@ -169,7 +164,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
                 String text = "HAL9000 WINS!";
                 edit = false;
                 ((TextView) findViewById(R.id.winner)).setText(text);
-                return;
+
             }
             }
         } else {  // Already selected
@@ -179,7 +174,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
         }
 
     public boolean checkWin(int[][]state, int player) { // -1 = human and 1 = computer
-        /**
+        /*
          * Connects to the board and returns if the game is over.
          * @param takes if player is human or computer and the state of the game.
          * @return Returns a true or false if the game is over.
@@ -209,7 +204,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public int evaluate(int[][]state) { // For AI Algorithm
-        /**
+        /*
          * Connects to the board and does calculations for the artificial intelligence.
          * @param take the state of the game (board)
          * @return Returs 1 if calculated computer wins, -1 if human wins, and 0 if neither.
@@ -227,7 +222,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public int[] minimax(int[][]state, int depth, int player) {
-        /**
+        /*
          * Connects to the board and does calculations for the artificial intelligence.
          * @param take the state of the game (board)
          * @return Returs 1 if calculated computer wins, -1 if human wins, and 0 if neither.
@@ -240,7 +235,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
             best[1] = -1; // best col
             best[2] = -(int)Double.POSITIVE_INFINITY; // best score
             for (int x = 0; x < best.length; x++ ) {
-                String beststr = Integer.toString(x) + " is " + Integer.toString(best[x]);
+                String beststr = x + " is " + best[x];
                 Log.d("myTag", beststr);
             }
         }
@@ -284,13 +279,13 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public Vector<Integer[]> empty_cells(int[][] state) {
-        /**
+        /*
          * Connects to the board to return the locations of all the empty spaces.
          * @param take the state of the game (board)
          * @return Returns a double array of x and y coordinates for empty spots.
          */
 
-        Vector<Integer[]> empty_cells = new Vector<Integer[]>();
+        Vector<Integer[]> empty_cells = new Vector<>();
         for (int x = 0; x <= 2; x++) {
             for (int y = 0; y <= 2; y++) {
                 if (state[x][y] == 0) {
@@ -307,7 +302,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void halTurn() { // Will go after human
-        /**
+        /*
          * Will respond to the board to place the best possible move from HAL.
          */
 
@@ -331,11 +326,6 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
             int[] move = minimax(board, depth, HAL);
             x = move[0];
             y = move[1];
-
-            Log.d("myTag", " Position " + String.valueOf(x) + String.valueOf(y));
-
-            String tag = Integer.toString(x) + Integer.toString(y);
-            Log.d("myTag", tag);
         }
 
         board[x][y] = HAL;
@@ -374,7 +364,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
 
     public void reset() {
-        /**
+        /*
          * Function which resets the paremeters for the game to happen to default values.
          */
         for (int i = 0; i <= 2; i++) { // resets board
@@ -398,7 +388,7 @@ public class PlayAI extends AppCompatActivity implements View.OnClickListener {
 
 
     public void openHome() {
-        /**
+        /*
          * Function to bring the game to the HomeActivity.
          */
         Intent home = new Intent(this, HomeActivity.class );
